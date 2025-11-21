@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -34,9 +35,12 @@ export default function LoginPage() {
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
-        // TODO: Implement login logic
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        await signIn("credentials", {
+            email: values.email,
+            password: values.password,
+            callbackUrl: "/",
+        })
     }
 
     return (

